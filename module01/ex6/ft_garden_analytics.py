@@ -49,8 +49,12 @@ class GardenManager:
         print(f"{self.owner} is helping all plants grow")
         for plant in self.plants:
             plant.height += 1
-        print(f"{plant.name} grew 1cm")
+            print(f"{plant.name} grew 1cm")
+    @classmethod
+    def create_garden_network(cls):
         
+
+
 
 if __name__ == "__main__":
     sunflower = PrizeFlower("Sunflower", 51, 45, "yellow", 10)
