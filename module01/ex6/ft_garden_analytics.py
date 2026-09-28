@@ -1,32 +1,28 @@
 class Plant:
-    def __init__(self, name: str, height: int, age: int) -> None:
+    def __init__(self, name: str, height: int) -> None:
         self.name = name
         self.height = height
-        self.age = age
+        self.initial_height = height
 
-    def get_info(self) -> None:
-        print(f"{self.name}: {self.height}cm {self.age} days old")
+    def get_description(self) -> str:
+        return f"{self.name}: {self.height}cm"
 
 class FloweringPlant(Plant): 
-    def __init__(self, name: str, height: int, age: int, color: str) -> None:
-        super().__init__(name, height, age)
+    def __init__(self, name: str, height: int, color: str) -> None:
+        super().__init__(name, height)
         self.color = color
 
-    def get_info(self) -> None:
-        super().get_info()
-        print(f"Color: {self.color}")
-
-    def bloom(self) -> None:
-        print(f"{self.name} (blooming)")
+    def get_description(self) -> str:
+        return f"{super().get_description()}, {self.color} flowers (blooming)"
 
 class PrizeFlower(FloweringPlant):
-    def __init__(self, name: str, height: int, age: int, color: str, prize_points: int) -> None:
-        super().__init__(name, height, age, color)
+    def __init__(self, name: str, height: int, color: str, prize_points: int) -> None:
+        super().__init__(name, height, color)
         self.prize_points = prize_points
 
-    def get_info(self) -> None:
-        super().get_info()
-        print(f"Prize points: {self.prize_points}")
+    def get_description(self) -> str:
+        return f"{super().get_description()}, Prize points: {self.prize_points}"
+
 class GardenManager:
     total_gardens = 0
     def __init__(self, owner: str) -> None:
@@ -52,11 +48,25 @@ class GardenManager:
             print(f"{plant.name} grew 1cm")
     @classmethod
     def create_garden_network(cls):
-        
+        return[cls("Alice"), cls("Bob")]
+    def report(self) -> None: 
+        total_growth = 0
+        print(f"=== {self.owner}'s Garden Report ===")
+        print("Plants in garden:")
+        for plant in self.plants:
+            print(f"- {plant.get_description()}")
+            total_growth += plant.height - plant.initial_height
+        print(f"Plants added: {len(self.plants)}, Total growth: {total_growth}cm")
 
 
 
 if __name__ == "__main__":
-    sunflower = PrizeFlower("Sunflower", 51, 45, "yellow", 10)
-    sunflower.get_info()
+    print("=== Garden Management System Demo ===")
+    alice, bob = GardenManager.create_garden_network()
+    alice.add_plant(Plant("Oak Tree", 101))
+    alice.add_plant(FloweringPlant("Rose", 26, "red"))
+    alice.add_plant(PrizeFlower("Sunflower", 51, "yellow", 10))
+    alice.grow_all()
+    alice.report()
+    
      
